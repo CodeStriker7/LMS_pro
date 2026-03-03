@@ -1,6 +1,8 @@
 from rest_framework import serializers
 from .models import Category, Course, Lesson
 
+from users.serializers import UserSerializer
+
 # 1. Kategoriya tarjimoni
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
@@ -17,7 +19,8 @@ class LessonSerializer(serializers.ModelSerializer):
 class CourseSerializer(serializers.ModelSerializer):
     # Kurs ichida darslar ro'yxatini ham ko'rsatish uchun:
     lessons = LessonSerializer(many=True, read_only=True)
-    
+    author = UserSerializer(read_only=True)
+
     class Meta:
         model = Course
-        fields = ['id', 'title', 'description', 'price', 'image','lessons', 'created_at']
+        fields = ['id', 'title', 'description', 'price', 'author', 'image','lessons', 'created_at']
